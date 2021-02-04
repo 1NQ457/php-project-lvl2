@@ -10,18 +10,6 @@ if (file_exists($autoloadPath1)) {
     require_once $autoloadPath2;
 }
 
-$doc = <<<'DOCOPT'
-Generate diff
+use function Gendiff\Cli\run;
 
-Usage:
-gendiff (-h|--help)
-gendiff (-v|--version)
-
-Options:
--h --help                     Show this screen
--v --version                  Show version
-DOCOPT;
-
-$result = Docopt::handle($doc, ['version' => '0.1.0']);
-foreach ($result as $k=>$v)
-    echo $k.': '.json_encode($v).PHP_EOL;
+run();
