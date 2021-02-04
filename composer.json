@@ -1,0 +1,17 @@
+{
+    "name": "hexlet/code",
+    "description": "education practice",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Vlad Werner",
+            "email": "inqast@gmail.com"
+        }
+    ],
+    "license": "MIT",
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "require": {
+        "docopt/docopt": "^1.0"
+    }
+}
