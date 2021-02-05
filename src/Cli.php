@@ -4,24 +4,13 @@ namespace Gendiff\Cli;
 
 use Docopt;
 
-const DOC = <<<'DOCOPT'
-Generate diff
+use function Gendiff\Differ\genDiff;
 
-Usage:
-gendiff (-h|--help)
-gendiff (-v|--version)
-gendiff [--format <fmt>] <firstFile> <secondFile>
-
-Options:
--h --help                     Show this screen
--v --version                  Show version
---format <fmt>                Report format [default: stylish]
-DOCOPT;
-
-function run()
+function run($doc)
 {
-    $result = Docopt::handle(DOC, ['version' => '0.1.0']);
-    foreach ($result as $k => $v) {
-        echo $k . ': ' . json_encode($v) . PHP_EOL;
-    }
+    $args = \Docopt::handle($doc, ['version' => 'GenDiff. Version 0.6.0']);
+
+    $diff = genDiff($args['<firstFile>'], $args['<secondFile>']);
+
+    print_r($diff);
 }

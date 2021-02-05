@@ -2,4 +2,7 @@ install:
 	composer install
 
 gendiff:
-	./bin/gendiff -h
+	./bin/gendiff
+
+dump:
+	composer dump-autoload

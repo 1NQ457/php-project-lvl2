@@ -9,14 +9,19 @@
         }
     ],
     "license": "MIT",
+    "bin": [
+        "bin/gendiff"
+    ],
     "autoload": {
         "files": [
-            "src/Cli.php"
+            "src/Cli.php",
+            "src/Differ.php"
         ]
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
     "require": {
-        "docopt/docopt": "^1.0"
+        "docopt/docopt": "^1.0",
+        "funct/funct": "^1.5"
     }
 }
