@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<coverage generated="1612730029">
+  <project timestamp="1612730029">
+    <file name="/Users/inqast/Study/php-project-lvl2/src/Cli.php">
+      <line num="11" type="stmt" count="0"/>
+      <line num="13" type="stmt" count="0"/>
+      <line num="14" type="stmt" count="0"/>
+      <line num="15" type="stmt" count="0"/>
+      <metrics loc="15" ncloc="15" classes="0" methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="4" coveredstatements="0" elements="4" coveredelements="0"/>
+    </file>
+    <file name="/Users/inqast/Study/php-project-lvl2/src/Differ.php">
+      <line num="7" type="stmt" count="3"/>
+      <line num="8" type="stmt" count="3"/>
+      <line num="9" type="stmt" count="3"/>
+      <line num="10" type="stmt" count="3"/>
+      <line num="11" type="stmt" count="3"/>
+      <line num="12" type="stmt" count="3"/>
+      <line num="14" type="stmt" count="3"/>
+      <line num="19" type="stmt" count="2"/>
+      <line num="21" type="stmt" count="2"/>
+      <line num="22" type="stmt" count="2"/>
+      <line num="23" type="stmt" count="2"/>
+      <line num="24" type="stmt" count="2"/>
+      <line num="26" type="stmt" count="2"/>
+      <line num="27" type="stmt" count="2"/>
+      <line num="30" type="stmt" count="2"/>
+      <line num="33" type="stmt" count="2"/>
+      <line num="34" type="stmt" count="2"/>
+      <line num="35" type="stmt" count="2"/>
+      <line num="39" type="stmt" count="2"/>
+      <line num="44" type="stmt" count="1"/>
+      <line num="45" type="stmt" count="1"/>
+      <line num="47" type="stmt" count="1"/>
+      <line num="49" type="stmt" count="1"/>
+      <line num="50" type="stmt" count="1"/>
+      <line num="51" type="stmt" count="1"/>
+      <line num="52" type="stmt" count="1"/>
+      <line num="53" type="stmt" count="1"/>
+      <line num="55" type="stmt" count="1"/>
+      <line num="59" type="stmt" count="1"/>
+      <line num="61" type="stmt" count="1"/>
+      <metrics loc="62" ncloc="62" classes="0" methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="30" coveredstatements="30" elements="30" coveredelements="30"/>
+    </file>
+    <metrics files="2" loc="77" ncloc="77" classes="0" methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="34" coveredstatements="30" elements="34" coveredelements="30"/>
+  </project>
+</coverage>
