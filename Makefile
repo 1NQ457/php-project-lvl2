@@ -15,3 +15,6 @@ dump:
 
 test:
 	composer run-script phpunit tests
+
+test-coverage:
+	composer exec --verbose phpunit tests -- --coverage-clover build/logs/clover.xml
