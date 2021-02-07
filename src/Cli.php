@@ -11,6 +11,5 @@ function run($doc)
     $args = \Docopt::handle($doc, ['version' => 'GenDiff. Version 0.6.0']);
 
     $diff = genDiff($args['<firstFile>'], $args['<secondFile>']);
-
-    print_r($diff);
+    echo $diff;
 }

@@ -2,17 +2,21 @@
 
 namespace Gendiff\Differ;
 
-function genDiff($pathToBefore, $pathToAfter)
+function parser($pathToBefore, $pathToAfter)
 {
     $rawBefore = file_get_contents($pathToBefore);
     $rawAfter = file_get_contents($pathToAfter);
-
-    $result = [];
-
     $before = json_decode($rawBefore, true);
     $after = json_decode($rawAfter, true);
     ksort($before);
     ksort($after);
+
+    return [$before, $after];
+}
+
+function differ($before, $after)
+{
+    $result = [];
 
     foreach ($before as $key => $value) {
         if (isset($after[$key])) {
@@ -32,6 +36,14 @@ function genDiff($pathToBefore, $pathToAfter)
         }
     }
 
+    return $result;
+}
+
+function genDiff($pathToBefore, $pathToAfter)
+{
+    [$before, $after] = parser($pathToBefore, $pathToAfter);
+    $result = differ($before, $after);
+
     $output = "{\n";
 
     foreach ($result as $key => $value) {
@@ -46,5 +58,5 @@ function genDiff($pathToBefore, $pathToAfter)
 
     $output .= "}\n";
 
-    echo $output;
+    return $output;
 }
