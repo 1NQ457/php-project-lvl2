@@ -2,61 +2,70 @@
 
 namespace Gendiff\Differ;
 
+use function cli\line;
+
 function parser($pathToBefore, $pathToAfter)
 {
     $rawBefore = file_get_contents($pathToBefore);
     $rawAfter = file_get_contents($pathToAfter);
     $before = json_decode($rawBefore, true);
     $after = json_decode($rawAfter, true);
-    ksort($before);
-    ksort($after);
 
     return [$before, $after];
 }
 
-function differ($before, $after)
+function getAdded($before, $after)
 {
-    $result = [];
-
-    foreach ($before as $key => $value) {
-        if (isset($after[$key])) {
-            if ($after[$key] == $value) {
-                $result["  {$key}"] = $value;
-            } else {
-                $result["- {$key}"] = $value;
-                $result["+ {$key}"] = $after[$key];
-            }
-        } else {
-            $result["- {$key}"] = $value;
-        }
-    }
-    foreach ($after as $key => $value) {
-        if (!(isset($before[$key]))) {
-            $result["+ {$key}"] = $value;
-        }
-    }
-
-    return $result;
+    $added = array_diff_assoc($after, $before);
+    return $added;
 }
 
-function genDiff($pathToBefore, $pathToAfter)
+function getRemoved($before, $after)
+{
+    $removed = array_diff_assoc($before, $after);
+    return $removed;
+}
+
+function getStill($before, $after)
+{
+    $still = array_intersect_assoc($before, $after);
+    return $still;
+}
+
+function getKeys($before, $after)
+{
+    $beforeKeys = array_keys($before);
+    $afterKeys = array_keys($after);
+    $keys = array_merge(
+        array_intersect($beforeKeys, $afterKeys),
+        array_diff($beforeKeys, $afterKeys),
+        array_diff($afterKeys, $beforeKeys)
+    );
+
+    sort($keys);
+    return array_values($keys);
+}
+
+function gendiff($pathToBefore, $pathToAfter)
 {
     [$before, $after] = parser($pathToBefore, $pathToAfter);
-    $result = differ($before, $after);
 
-    $output = "{\n";
+    $added = getAdded($before, $after);
+    $removed = getRemoved($before, $after);
+    $still = getStill($before, $after);
+    $keys = getKeys($before, $after);
 
-    foreach ($result as $key => $value) {
-        if ($value === true) {
-            $output .= "    {$key}: true\n";
-        } elseif ($value === false) {
-            $output .= "    {$key}: false\n";
-        } else {
-            $output .= "    {$key}: {$value}\n";
+    print("{\n");
+    foreach ($keys as $key) {
+        if (isset($removed[$key])) {
+            print("    - {$key}: {$removed[$key]}\n");
+        }
+        if (isset($added[$key])) {
+            print("    + {$key}: {$added[$key]}\n");
+        }
+        if (isset($still[$key])) {
+            print("      {$key}: {$still[$key]}\n");
         }
     }
-
-    $output .= "}\n";
-
-    return $output;
+    print("}\n");
 }
