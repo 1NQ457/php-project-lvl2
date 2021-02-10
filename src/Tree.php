@@ -31,8 +31,3 @@ function getNewValue($node)
 {
     return $node['newValue'];
 }
-
-function getChildren($node)
-{
-    return $node['children'];
-}

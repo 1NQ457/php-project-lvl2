@@ -13,10 +13,14 @@
     -Поддержка разных входных форматов: yaml и json
     -Генерация отчета в виде plain text, stylish и json
 
-### Пример использования:
+### Примеры использования:
 
 Пример загрузки пакета и использования для вычисления отличий в двух плоских JSON файлах.
 
 gendiff before1.json after1.json
 
 [![asciicast](https://asciinema.org/a/rnbPyC4FsOJhDbwvwl3fuyLZL.svg)](https://asciinema.org/a/rnbPyC4FsOJhDbwvwl3fuyLZL)
+
+Пример использования для вычисления отличий в двух плоских YAML файлах.
+
+[![asciicast](https://asciinema.org/a/4EU2RsHb4MGzgbmNOdRQtAIoV.svg)](https://asciinema.org/a/4EU2RsHb4MGzgbmNOdRQtAIoV)
