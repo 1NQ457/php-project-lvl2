@@ -15,14 +15,18 @@
 
 ### Примеры использования:
 
-Пример загрузки пакета и использования для вычисления отличий в двух плоских JSON файлах.
+#### Пример загрузки пакета и использования для вычисления отличий в двух плоских JSON файлах.
 
 gendiff before1.json after1.json
 
 [![asciicast](https://asciinema.org/a/rnbPyC4FsOJhDbwvwl3fuyLZL.svg)](https://asciinema.org/a/rnbPyC4FsOJhDbwvwl3fuyLZL)
 
-Пример использования для вычисления отличий в двух плоских YAML файлах.
+#### Пример использования для вычисления отличий в двух плоских YAML файлах.
 
 gendiff before.yml after.yml
 
 [![asciicast](https://asciinema.org/a/4EU2RsHb4MGzgbmNOdRQtAIoV.svg)](https://asciinema.org/a/4EU2RsHb4MGzgbmNOdRQtAIoV)
+
+#### Пример использования для рекурсивного вычисления отличий в двух файлах.
+
+[![asciicast](https://asciinema.org/a/IDpNNfjmB7XZ6J5cbqF0hpgJJ.svg)](https://asciinema.org/a/IDpNNfjmB7XZ6J5cbqF0hpgJJ)
