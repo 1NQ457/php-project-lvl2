@@ -1,5 +1,5 @@
 {
-    "name": "hexlet/code",
+    "name": "inqast/php-project-lvl2",
     "description": "education practice",
     "type": "project",
     "authors": [
@@ -14,7 +14,8 @@
     ],
     "autoload": {
         "files": [
-            "src/Differ.php"
+            "src/Differ.php",
+            "src/Tree.php"
         ]
     },
     "scripts": {
@@ -26,7 +27,8 @@
     "require": {
         "docopt/docopt": "^1.0",
         "funct/funct": "^1.5",
-        "wp-cli/php-cli-tools": "^0.11.11"
+        "wp-cli/php-cli-tools": "^0.11.11",
+        "symfony/yaml": "^5.2"
     },
     "require-dev": {
         "squizlabs/php_codesniffer": "^3.5",

@@ -2,7 +2,11 @@
 
 namespace Gendiff\Differ;
 
-use function cli\line;
+use function Gendiff\Tree\makeLeaf;
+use function Gendiff\Tree\getName;
+use function Gendiff\Tree\getType;
+use function Gendiff\Tree\getOldValue;
+use function Gendiff\Tree\getNewValue;
 
 function parser($pathToBefore, $pathToAfter)
 {
@@ -10,62 +14,75 @@ function parser($pathToBefore, $pathToAfter)
     $rawAfter = file_get_contents($pathToAfter);
     $before = json_decode($rawBefore, true);
     $after = json_decode($rawAfter, true);
-
     return [$before, $after];
 }
 
-function getAdded($before, $after)
+function boolToString($value)
 {
-    $added = array_diff_assoc($after, $before);
-    return $added;
+    if (is_bool($value)) {
+        if ($value === true) {
+            return 'true';
+        }
+        return 'false';
+    }
+    return $value;
 }
 
-function getRemoved($before, $after)
+function makeTree($before, $after)
 {
-    $removed = array_diff_assoc($before, $after);
-    return $removed;
-}
-
-function getStill($before, $after)
-{
-    $still = array_intersect_assoc($before, $after);
-    return $still;
-}
-
-function getKeys($before, $after)
-{
-    $beforeKeys = array_keys($before);
-    $afterKeys = array_keys($after);
-    $keys = array_merge(
-        array_intersect($beforeKeys, $afterKeys),
-        array_diff($beforeKeys, $afterKeys),
-        array_diff($afterKeys, $beforeKeys)
-    );
-
+    $keys = array_keys(array_merge($before, $after));
     sort($keys);
-    return array_values($keys);
+
+    return array_map(function ($key) use ($before, $after) {
+        if (!array_key_exists($key, $before)) {
+            return makeLeaf($key, 'added', null, $after[$key]);
+        }
+        if (!array_key_exists($key, $after)) {
+            return makeLeaf($key, 'deleted', $before[$key], null);
+        }
+        if ($before[$key] !== $after[$key]) {
+            return makeLeaf($key, 'changed', $before[$key], $after[$key]);
+        }
+        return makeLeaf($key, 'notChanged', $before[$key], $after[$key]);
+    }, $keys);
+}
+
+function makeOutput($tree)
+{
+    return array_reduce($tree, function ($result, $node) {
+        $name = getName($node);
+        $type = getType($node);
+
+        switch ($type) {
+            case 'added':
+                $newValue = getNewValue($node);
+                $result[] = "  + {$name}: " . boolToString($newValue);
+                break;
+            case 'deleted':
+                $oldValue = getOldValue($node);
+                $result[] = "  - {$name}: " . boolToString($oldValue);
+                break;
+            case 'changed':
+                $oldValue = getOldValue($node);
+                $newValue = getNewValue($node);
+                $result[] = "  - {$name}: " . boolToString($oldValue);
+                $result[] = "  + {$name}: " . boolToString($newValue);
+                break;
+            case 'notChanged':
+                $value = getOldValue($node);
+                $result[] = "    {$name}: " . boolToString($value);
+                break;
+        };
+        return $result;
+    }, []);
 }
 
 function gendiff($pathToBefore, $pathToAfter)
 {
     [$before, $after] = parser($pathToBefore, $pathToAfter);
+    $tree = makeTree($before, $after);
+    $output = makeOutput($tree);
+    $result = implode("\n", $output);
 
-    $added = getAdded($before, $after);
-    $removed = getRemoved($before, $after);
-    $still = getStill($before, $after);
-    $keys = getKeys($before, $after);
-
-    print("{\n");
-    foreach ($keys as $key) {
-        if (isset($removed[$key])) {
-            print("    - {$key}: {$removed[$key]}\n");
-        }
-        if (isset($added[$key])) {
-            print("    + {$key}: {$added[$key]}\n");
-        }
-        if (isset($still[$key])) {
-            print("      {$key}: {$still[$key]}\n");
-        }
-    }
-    print("}\n");
+    return "{\n" . $result . "\n}\n";
 }
