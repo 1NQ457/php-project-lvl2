@@ -7,15 +7,7 @@ use function Gendiff\Tree\getName;
 use function Gendiff\Tree\getType;
 use function Gendiff\Tree\getOldValue;
 use function Gendiff\Tree\getNewValue;
-
-function parser($pathToBefore, $pathToAfter)
-{
-    $rawBefore = file_get_contents($pathToBefore);
-    $rawAfter = file_get_contents($pathToAfter);
-    $before = json_decode($rawBefore, true);
-    $after = json_decode($rawAfter, true);
-    return [$before, $after];
-}
+use function GenDiff\Parser\getData;
 
 function boolToString($value)
 {
@@ -79,7 +71,7 @@ function makeOutput($tree)
 
 function gendiff($pathToBefore, $pathToAfter)
 {
-    [$before, $after] = parser($pathToBefore, $pathToAfter);
+    [$before, $after] = getData($pathToBefore, $pathToAfter);
     $tree = makeTree($before, $after);
     $output = makeOutput($tree);
     $result = implode("\n", $output);

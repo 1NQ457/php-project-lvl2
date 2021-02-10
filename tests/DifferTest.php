@@ -4,12 +4,25 @@ namespace GenDiff\Tests;
 
 use PHPUnit\Framework\TestCase;
 
-use function GenDiff\Differ\parser;
+use function GenDiff\Parser\getData;
 use function GenDiff\Differ\gendiff;
 
 class DifferTest extends TestCase
 {
-    public function testParser()
+    public function additionProvider()
+    {
+        return [
+            ['./tests/fixtures/before.json', './tests/fixtures/after.json'],
+            ['./tests/fixtures/before.yml', './tests/fixtures/after.yml'],
+            ['./tests/fixtures/before.json', './tests/fixtures/after.yml'],
+        ];
+    }
+
+    /**
+     * @dataProvider additionProvider
+     */
+
+    public function testGetData($before, $after)
     {
         $expected = [
             [
@@ -23,12 +36,16 @@ class DifferTest extends TestCase
                 "verbose" => true]
         ];
 
-        $actual = parser('./tests/fixtures/before1.json', './tests/fixtures/after1.json');
+        $actual = getData($before, $after);
 
         $this->assertEquals($expected, $actual);
     }
 
-    public function testGendiff()
+    /**
+     * @dataProvider additionProvider
+     */
+
+    public function testGendiff($before, $after)
     {
         $expected = "{
   - follow: false
@@ -39,7 +56,7 @@ class DifferTest extends TestCase
   + verbose: true
 }
 ";
-        $actual = gendiff('./tests/fixtures/before1.json', './tests/fixtures/after1.json');
+        $actual = gendiff($before, $after);
         $this->assertEquals($expected, $actual);
     }
 }

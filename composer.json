@@ -15,7 +15,8 @@
     "autoload": {
         "files": [
             "src/Differ.php",
-            "src/Tree.php"
+            "src/Tree.php",
+            "src/Parser.php"
         ]
     },
     "scripts": {
