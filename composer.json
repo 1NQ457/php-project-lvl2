@@ -16,7 +16,8 @@
         "files": [
             "src/Differ.php",
             "src/Tree.php",
-            "src/Parser.php"
+            "src/Parser.php",
+            "src/Formatters/Stylish.php"
         ]
     },
     "scripts": {

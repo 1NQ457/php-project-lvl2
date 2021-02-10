@@ -23,4 +23,6 @@ gendiff before1.json after1.json
 
 Пример использования для вычисления отличий в двух плоских YAML файлах.
 
+gendiff before.yml after.yml
+
 [![asciicast](https://asciinema.org/a/4EU2RsHb4MGzgbmNOdRQtAIoV.svg)](https://asciinema.org/a/4EU2RsHb4MGzgbmNOdRQtAIoV)

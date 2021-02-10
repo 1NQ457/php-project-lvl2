@@ -10,9 +10,9 @@ function parse($pathToFile)
     $extension = pathinfo($pathToFile, PATHINFO_EXTENSION);
     $parsers = [
         'json' =>
-            fn ($rawData) => json_decode($rawData, true),
+            fn ($rawData) => json_decode($rawData),
         'yml' =>
-            fn ($rawData) => Yaml::parse($rawData)
+            fn ($rawData) => Yaml::parse($rawData, Yaml::PARSE_OBJECT_FOR_MAP)
     ];
     return $parsers[$extension]($rawData);
 }

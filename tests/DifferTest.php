@@ -22,40 +22,9 @@ class DifferTest extends TestCase
      * @dataProvider additionProvider
      */
 
-    public function testGetData($before, $after)
-    {
-        $expected = [
-            [
-                "follow" => false,
-                "host" => "hexlet.io",
-                "proxy" => "123.234.53.22",
-                "timeout" => 50],
-            [
-                "host" => "hexlet.io",
-                "timeout" => 20,
-                "verbose" => true]
-        ];
-
-        $actual = getData($before, $after);
-
-        $this->assertEquals($expected, $actual);
-    }
-
-    /**
-     * @dataProvider additionProvider
-     */
-
     public function testGendiff($before, $after)
     {
-        $expected = "{
-  - follow: false
-    host: hexlet.io
-  - proxy: 123.234.53.22
-  - timeout: 50
-  + timeout: 20
-  + verbose: true
-}
-";
+        $expected = file_get_contents('./tests/fixtures/diffStylish');
         $actual = gendiff($before, $after);
         $this->assertEquals($expected, $actual);
     }

@@ -12,6 +12,15 @@ function makeLeaf($name, $type, $oldValue, $newValue)
     ];
 }
 
+function makeNode(string $name, string $type, $children)
+{
+    return [
+        "name" => $name,
+        "type" => $type,
+        "children" => $children
+    ];
+}
+
 function getName($node)
 {
     return $node['name'];
@@ -30,4 +39,9 @@ function getOldValue($node)
 function getNewValue($node)
 {
     return $node['newValue'];
+}
+
+function getChildren($node)
+{
+    return $node['children'];
 }
