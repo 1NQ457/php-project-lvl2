@@ -42,24 +42,52 @@ function makeOutput($tree, $parentName = ''): array
         $type = getType($node);
         switch ($type) {
             case 'added':
-                $newValue = getNewValue($node);
-                return "Property '{$name}' was added with value: " . strFormat($newValue);
+                return createAddedString($name, $node);
                 break;
             case 'removed':
-                return "Property '{$name}' was removed";
+                return createRemovedString($name);
                 break;
             case 'updated':
-                $oldValue = strFormat(getOldValue($node));
-                $newValue = strFormat(getNewValue($node));
-                return "Property '{$name}' was updated. From {$oldValue} to {$newValue}";
+                return createUpdatedString($name, $node);
                 break;
             case 'nested':
-                $children = getChildren($node);
-                return makeOutput($children, $name);
+                return createNestedString($name, $node);
                 break;
         };
     }, $tree);
-    return array_filter(flattenAll($result), function ($element) {
+    return flatten($result);
+}
+
+function createAddedString($name, $node)
+{
+    $newValue = strFormat(getNewValue($node));
+    $added = "Property '{$name}' was added with value: " . $newValue;
+    return $added;
+}
+
+function createRemovedString($name)
+{
+    $removed = "Property '{$name}' was removed";
+    return $removed;
+}
+
+function createUpdatedString($name, $node)
+{
+    $oldValue = strFormat(getOldValue($node));
+    $newValue = strFormat(getNewValue($node));
+    $updated = "Property '{$name}' was updated. From {$oldValue} to {$newValue}";
+    return $updated;
+}
+
+function createNestedString($name, $node)
+{
+    $children = getChildren($node);
+    return makeOutput($children, $name);
+}
+
+function flatten($arr)
+{
+    return array_filter(flattenAll($arr), function ($element) {
         return !empty($element);
     });
 }

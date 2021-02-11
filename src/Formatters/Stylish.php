@@ -42,30 +42,59 @@ function makeOutput($tree, $tab = ''): array
         $type = getType($node);
         switch ($type) {
             case 'added':
-                return $tab . "  + {$name}: " . strFormat(getNewValue($node), $tab . "    ");
+                return createAddedString($tab, $name, $node);
                 break;
             case 'removed':
                 return $tab . "  - {$name}: " . strFormat(getOldValue($node), $tab . "    ");
                 break;
             case 'updated':
-                $updeted = [];
-                $updated[] = $tab . "  - {$name}: " . strFormat(getOldValue($node), $tab . "    ");
-                $updated[] = $tab . "  + {$name}: " . strFormat(getNewValue($node), $tab . "    ");
-                return $updated;
+                return createUpdatedSting($tab, $name, $node);
                 break;
             case 'notChanged':
-                return $tab . "    {$name}: " . strFormat(getOldValue($node), $tab . "    ");
+                return createNotChangedString($tab, $name, $node);
                 break;
             case 'nested':
-                $nested = [];
-                $nested[] = $tab . "    {$name}: {";
-                $nested[] = makeOutput(getChildren($node), $tab . "    ");
-                $nested[] = $tab . '    }';
-                return $nested;
+                return createFromeNode($tab, $name, $node);
                 break;
         };
     }, $tree);
     return flattenAll($result);
+}
+
+function createAddedString($tab, $name, $node)
+{
+    $added = $tab . "  + {$name}: " . strFormat(getNewValue($node), $tab . "    ");
+    return $added;
+}
+
+function createRemovedString($tab, $name, $node)
+{
+    $removed = $tab . "  - {$name}: " . strFormat(getOldValue($node), $tab . "    ");
+    return $removed;
+}
+
+function createUpdatedSting($tab, $name, $node)
+{
+    $updated = [$tab . "  - {$name}: " . strFormat(getOldValue($node), $tab . "    "),
+        $tab . "  + {$name}: " . strFormat(getNewValue($node), $tab . "    ")
+    ];
+    return $updated;
+}
+
+function createNotChangedString($tab, $name, $node)
+{
+    $notChanged = $tab . "    {$name}: " . strFormat(getOldValue($node), $tab . "    ");
+    return $notChanged;
+}
+
+function createFromeNode($tab, $name, $node)
+{
+    $nested = [
+        $tab . "    {$name}: {",
+        makeOutput(getChildren($node), $tab . "    "),
+        $tab . '    }'
+    ];
+    return $nested;
 }
 
 function stylishOutput($tree): string
