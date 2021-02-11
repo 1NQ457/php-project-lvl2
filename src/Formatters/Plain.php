@@ -37,34 +37,36 @@ function strFormat($value, $tab = ''): string
 
 function makeOutput($tree, $parentName = ''): array
 {
-    return array_reduce($tree, function ($result, $node) use ($parentName): array {
+    $result = array_map(function ($node) use ($parentName) {
         $name = trim(($parentName . '.' . getName($node)), ".");
         $type = getType($node);
-
         switch ($type) {
             case 'added':
                 $newValue = getNewValue($node);
-                $result[] = "Property '{$name}' was added with value: " . strFormat($newValue);
+                return "Property '{$name}' was added with value: " . strFormat($newValue);
                 break;
             case 'removed':
-                $result[] = "Property '{$name}' was removed";
+                return "Property '{$name}' was removed";
                 break;
             case 'updated':
                 $oldValue = strFormat(getOldValue($node));
                 $newValue = strFormat(getNewValue($node));
-                $result[] = "Property '{$name}' was updated. From {$oldValue} to {$newValue}";
+                return "Property '{$name}' was updated. From {$oldValue} to {$newValue}";
                 break;
             case 'nested':
                 $children = getChildren($node);
-                $result[] = makeOutput($children, $name);
+                return makeOutput($children, $name);
                 break;
         };
-        return flattenAll($result);
-    }, []);
+    }, $tree);
+    return array_filter(flattenAll($result), function ($element) {
+        return !empty($element);
+    });
 }
 
-function plainOutput($tree): string
+function plainOutput($tree)
 {
+
     $output = makeOutput($tree);
     $result = implode("\n", $output);
     return $result;

@@ -8,7 +8,7 @@ use function Differ\Parser\getData;
 use function Differ\Formatters\Stylish\stylishOutput;
 use function Differ\Formatters\Plain\plainOutput;
 
-function makeTree($anyTypeBefore, $anyTypeAfter): array
+function makeTree($anyTypeBefore, $anyTypeAfter)
 {
     $before = (array) $anyTypeBefore;
     $after = (array) $anyTypeAfter;

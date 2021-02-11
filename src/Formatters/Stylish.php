@@ -37,31 +37,35 @@ function strFormat($value, $tab = ''): string
 
 function makeOutput($tree, $tab = ''): array
 {
-    return array_reduce($tree, function ($result, $node) use ($tab) {
+    $result = array_map(function ($node) use ($tab) {
         $name = getName($node);
         $type = getType($node);
         switch ($type) {
             case 'added':
-                $result[] = $tab . "  + {$name}: " . strFormat(getNewValue($node), $tab . "    ");
+                return $tab . "  + {$name}: " . strFormat(getNewValue($node), $tab . "    ");
                 break;
             case 'removed':
-                $result[] = $tab . "  - {$name}: " . strFormat(getOldValue($node), $tab . "    ");
+                return $tab . "  - {$name}: " . strFormat(getOldValue($node), $tab . "    ");
                 break;
             case 'updated':
-                $result[] = $tab . "  - {$name}: " . strFormat(getOldValue($node), $tab . "    ");
-                $result[] = $tab . "  + {$name}: " . strFormat(getNewValue($node), $tab . "    ");
+                $updeted = [];
+                $updated[] = $tab . "  - {$name}: " . strFormat(getOldValue($node), $tab . "    ");
+                $updated[] = $tab . "  + {$name}: " . strFormat(getNewValue($node), $tab . "    ");
+                return $updated;
                 break;
             case 'notChanged':
-                $result[] = $tab . "    {$name}: " . strFormat(getOldValue($node), $tab . "    ");
+                return $tab . "    {$name}: " . strFormat(getOldValue($node), $tab . "    ");
                 break;
             case 'nested':
-                $result[] = $tab . "    {$name}: {";
-                $result[] = makeOutput(getChildren($node), $tab . "    ");
-                $result[] = $tab . '    }';
+                $nested = [];
+                $nested[] = $tab . "    {$name}: {";
+                $nested[] = makeOutput(getChildren($node), $tab . "    ");
+                $nested[] = $tab . '    }';
+                return $nested;
                 break;
         };
-        return flattenAll($result);
-    }, []);
+    }, $tree);
+    return flattenAll($result);
 }
 
 function stylishOutput($tree): string
