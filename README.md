@@ -34,3 +34,7 @@ gendiff before.yml after.yml
 #### Пример использования с плоским форматированием.
 
 [![asciicast](https://asciinema.org/a/IMYt7NKmo7RWGcrfwvzrXxZyY.svg)](https://asciinema.org/a/IMYt7NKmo7RWGcrfwvzrXxZyY)
+
+#### Пример использования с json форматированием.
+
+[![asciicast](https://asciinema.org/a/XDi1AYD9kj8BlwxBo8CMdrZqk.svg)](https://asciinema.org/a/XDi1AYD9kj8BlwxBo8CMdrZqk)
