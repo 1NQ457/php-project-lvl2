@@ -61,8 +61,7 @@ function makeOutput($tree, $parentName = ''): array
 function createAddedString($name, $node)
 {
     $newValue = strFormat(getNewValue($node));
-    $added = "Property '{$name}' was added with value: " . $newValue;
-    return $added;
+    return "Property '{$name}' was added with value: " . $newValue;
 }
 
 function createRemovedString($name)
