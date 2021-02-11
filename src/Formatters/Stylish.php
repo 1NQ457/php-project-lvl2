@@ -34,27 +34,26 @@ function strFormat($value, $tab = '')
 
 function makeOutput($tree, $tab = '')
 {
-    $addedSpace = "    ";
-    return array_reduce($tree, function ($result, $node) use ($tab, $addedSpace) {
+    return array_reduce($tree, function ($result, $node) use ($tab) {
         $name = getName($node);
         $type = getType($node);
         switch ($type) {
             case 'added':
-                $result[] = $tab . "  + {$name}: " . strFormat(getNewValue($node), $tab . $addedSpace);
+                $result[] = $tab . "  + {$name}: " . strFormat(getNewValue($node), $tab . "    ");
                 break;
             case 'removed':
-                $result[] = $tab . "  - {$name}: " . strFormat(getOldValue($node), $tab . $addedSpace);
+                $result[] = $tab . "  - {$name}: " . strFormat(getOldValue($node), $tab . "    ");
                 break;
             case 'updated':
-                $result[] = $tab . "  - {$name}: " . strFormat(getOldValue($node), $tab . $addedSpace);
-                $result[] = $tab . "  + {$name}: " . strFormat(getNewValue($node), $tab . $addedSpace);
+                $result[] = $tab . "  - {$name}: " . strFormat(getOldValue($node), $tab . "    ");
+                $result[] = $tab . "  + {$name}: " . strFormat(getNewValue($node), $tab . "    ");
                 break;
             case 'notChanged':
-                $result[] = $tab . "    {$name}: " . strFormat(getOldValue($node), $tab . $addedSpace);
+                $result[] = $tab . "    {$name}: " . strFormat(getOldValue($node), $tab . "    ");
                 break;
             case 'nested':
                 $result[] = $tab . "    {$name}: {";
-                $result[] = makeOutput(getChildren($node), $tab . $addedSpace);
+                $result[] = makeOutput(getChildren($node), $tab . "    ");
                 $result[] = $tab . '    }';
                 break;
         };

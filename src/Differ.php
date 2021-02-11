@@ -40,7 +40,9 @@ function gendiff($pathToBefore, $pathToAfter, $format = 'stylish')
         'stylish' =>
             fn ($tree) => stylishOutput($tree),
         'plain' =>
-            fn ($tree) => plainOutput($tree)
+            fn ($tree) => plainOutput($tree),
+        'json' =>
+            fn ($tree) => json_encode($tree, JSON_PRETTY_PRINT)
     ];
     return $formatters[$format]($tree);
 }

@@ -14,7 +14,7 @@ class DifferTest extends TestCase
         return [
             ['./tests/fixtures/before.json', './tests/fixtures/after.json', './tests/fixtures/diffStylish', 'stylish'],
             ['./tests/fixtures/before.yml', './tests/fixtures/after.yml', './tests/fixtures/diffPlain', 'plain'],
-            ['./tests/fixtures/before.json', './tests/fixtures/after.yml', './tests/fixtures/diffPlain', 'plain']
+            ['./tests/fixtures/before.json', './tests/fixtures/after.yml', './tests/fixtures/diffJson', 'json']
         ];
     }
 
