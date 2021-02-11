@@ -8,14 +8,14 @@ use function Differ\Parser\getData;
 use function Differ\Formatters\Stylish\stylishOutput;
 use function Differ\Formatters\Plain\plainOutput;
 
-function makeTree($anyTypeBefore, $anyTypeAfter)
+function makeTree($anyTypeBefore, $anyTypeAfter): array
 {
     $before = (array) $anyTypeBefore;
     $after = (array) $anyTypeAfter;
     $keys = array_keys(array_merge($before, $after));
     sort($keys);
 
-    return array_map(function ($key) use ($before, $after) {
+    return array_map(function ($key) use ($before, $after): array {
         if (!array_key_exists($key, $before)) {
             return makeLeaf($key, 'added', null, $after[$key]);
         }

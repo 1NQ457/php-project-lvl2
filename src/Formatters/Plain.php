@@ -37,61 +37,60 @@ function strFormat($value, $tab = ''): string
 
 function makeOutput($tree, $parentName = ''): array
 {
-    $result = array_map(function ($node) use ($parentName) {
+    $result = array_map(function ($node) use ($parentName): array {
         $name = trim(($parentName . '.' . getName($node)), ".");
         $type = getType($node);
         switch ($type) {
             case 'added':
                 return createAddedString($name, $node);
-                break;
             case 'removed':
                 return createRemovedString($name);
-                break;
             case 'updated':
                 return createUpdatedString($name, $node);
-                break;
             case 'nested':
                 return createNestedString($name, $node);
-                break;
+            case 'notChanged':
+                return [];
         };
     }, $tree);
     return flatten($result);
 }
 
-function createAddedString($name, $node)
+function createAddedString($name, $node): array
 {
     $newValue = strFormat(getNewValue($node));
-    return "Property '{$name}' was added with value: " . $newValue;
+    $added = ["Property '{$name}' was added with value: " . $newValue];
+    return $added;
 }
 
-function createRemovedString($name)
+function createRemovedString($name): array
 {
-    $removed = "Property '{$name}' was removed";
+    $removed = ["Property '{$name}' was removed"];
     return $removed;
 }
 
-function createUpdatedString($name, $node)
+function createUpdatedString($name, $node): array
 {
     $oldValue = strFormat(getOldValue($node));
     $newValue = strFormat(getNewValue($node));
-    $updated = "Property '{$name}' was updated. From {$oldValue} to {$newValue}";
+    $updated = ["Property '{$name}' was updated. From {$oldValue} to {$newValue}"];
     return $updated;
 }
 
-function createNestedString($name, $node)
+function createNestedString($name, $node): array
 {
     $children = getChildren($node);
     return makeOutput($children, $name);
 }
 
-function flatten($arr)
+function flatten($arr): array
 {
     return array_filter(flattenAll($arr), function ($element) {
         return !empty($element);
     });
 }
 
-function plainOutput($tree)
+function plainOutput($tree): string
 {
 
     $output = makeOutput($tree);

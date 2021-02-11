@@ -17,7 +17,7 @@ function boolToStr($value): string
         }
         return 'false';
     }
-    return $value;
+    return (string) $value;
 }
 
 function strFormat($value, $tab = ''): string
@@ -29,7 +29,7 @@ function strFormat($value, $tab = ''): string
         return boolToStr($value);
     }
     $arr = (array) ($value);
-    $result = implode('', array_map(function ($key, $value) use ($tab): string {
+    $result = implode('', array_map(function ($key, $value) use ($tab) {
         return "\n" . $tab . "    {$key}: " . strFormat($value, $tab . '    ');
     }, array_keys($arr), $arr));
     return '{' . $result . "\n" . $tab . '}';
@@ -37,43 +37,38 @@ function strFormat($value, $tab = ''): string
 
 function makeOutput($tree, $tab = ''): array
 {
-    $result = array_map(function ($node) use ($tab) {
+    $result = array_map(function ($node) use ($tab): array {
         $name = getName($node);
         $type = getType($node);
         switch ($type) {
             case 'added':
                 return createAddedString($tab, $name, $node);
-                break;
             case 'removed':
-                return $tab . "  - {$name}: " . strFormat(getOldValue($node), $tab . "    ");
-                break;
+                return createRemovedString($tab, $name, $node);
             case 'updated':
                 return createUpdatedSting($tab, $name, $node);
-                break;
             case 'notChanged':
                 return createNotChangedString($tab, $name, $node);
-                break;
             case 'nested':
                 return createFromeNode($tab, $name, $node);
-                break;
         };
     }, $tree);
     return flattenAll($result);
 }
 
-function createAddedString($tab, $name, $node)
+function createAddedString($tab, $name, $node): array
 {
-    $added = $tab . "  + {$name}: " . strFormat(getNewValue($node), $tab . "    ");
+    $added = [$tab . "  + {$name}: " . strFormat(getNewValue($node), $tab . "    ")];
     return $added;
 }
 
-function createRemovedString($tab, $name, $node)
+function createRemovedString($tab, $name, $node): array
 {
-    $removed = $tab . "  - {$name}: " . strFormat(getOldValue($node), $tab . "    ");
+    $removed = [$tab . "  - {$name}: " . strFormat(getOldValue($node), $tab . "    ")];
     return $removed;
 }
 
-function createUpdatedSting($tab, $name, $node)
+function createUpdatedSting($tab, $name, $node): array
 {
     $updated = [$tab . "  - {$name}: " . strFormat(getOldValue($node), $tab . "    "),
         $tab . "  + {$name}: " . strFormat(getNewValue($node), $tab . "    ")
@@ -81,13 +76,13 @@ function createUpdatedSting($tab, $name, $node)
     return $updated;
 }
 
-function createNotChangedString($tab, $name, $node)
+function createNotChangedString($tab, $name, $node): array
 {
-    $notChanged = $tab . "    {$name}: " . strFormat(getOldValue($node), $tab . "    ");
+    $notChanged = [$tab . "    {$name}: " . strFormat(getOldValue($node), $tab . "    ")];
     return $notChanged;
 }
 
-function createFromeNode($tab, $name, $node)
+function createFromeNode($tab, $name, $node): array
 {
     $nested = [
         $tab . "    {$name}: {",
