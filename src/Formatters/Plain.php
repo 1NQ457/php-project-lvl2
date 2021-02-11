@@ -4,8 +4,7 @@ namespace Differ\Formatters\Plain;
 
 use function Differ\Tree\getName;
 use function Differ\Tree\getType;
-use function Differ\Tree\getOldValue;
-use function Differ\Tree\getNewValue;
+use function Differ\Tree\getValue;
 use function Differ\Tree\getChildren;
 use function Funct\Collection\flattenAll;
 
@@ -18,7 +17,7 @@ function boolToStr($value): string
         return 'false';
     }
     if (is_int($value)) {
-        return $value;
+        return (string) $value;
     }
     return "'{$value}'";
 }
@@ -58,7 +57,7 @@ function makeOutput($tree, $parentName = ''): array
 
 function createAddedString($name, $node): array
 {
-    $newValue = strFormat(getNewValue($node));
+    $newValue = strFormat(getValue($node)['new']);
     $added = ["Property '{$name}' was added with value: " . $newValue];
     return $added;
 }
@@ -71,8 +70,8 @@ function createRemovedString($name): array
 
 function createUpdatedString($name, $node): array
 {
-    $oldValue = strFormat(getOldValue($node));
-    $newValue = strFormat(getNewValue($node));
+    $oldValue = strFormat(getValue($node)['old']);
+    $newValue = strFormat(getValue($node)['new']);
     $updated = ["Property '{$name}' was updated. From {$oldValue} to {$newValue}"];
     return $updated;
 }
@@ -85,8 +84,8 @@ function createNestedString($name, $node): array
 
 function flatten($arr): array
 {
-    return array_filter(flattenAll($arr), function ($element) {
-        return !empty($element);
+    return array_filter(flattenAll($arr), function ($element): bool {
+        return ($element) !== '';
     });
 }
 

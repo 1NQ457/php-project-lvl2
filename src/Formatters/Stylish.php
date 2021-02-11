@@ -5,8 +5,7 @@ namespace Differ\Formatters\Stylish;
 use function Funct\Collection\flattenAll;
 use function Differ\Tree\getName;
 use function Differ\Tree\getType;
-use function Differ\Tree\getOldValue;
-use function Differ\Tree\getNewValue;
+use function Differ\Tree\getValue;
 use function Differ\Tree\getChildren;
 
 function boolToStr($value): string
@@ -29,7 +28,7 @@ function strFormat($value, $tab = ''): string
         return boolToStr($value);
     }
     $arr = (array) ($value);
-    $result = implode('', array_map(function ($key, $value) use ($tab) {
+    $result = implode('', array_map(function ($key, $value) use ($tab): string {
         return "\n" . $tab . "    {$key}: " . strFormat($value, $tab . '    ');
     }, array_keys($arr), $arr));
     return '{' . $result . "\n" . $tab . '}';
@@ -58,27 +57,27 @@ function makeOutput($tree, $tab = ''): array
 
 function createAddedString($tab, $name, $node): array
 {
-    $added = [$tab . "  + {$name}: " . strFormat(getNewValue($node), $tab . "    ")];
+    $added = [$tab . "  + {$name}: " . strFormat(getValue($node)['new'], $tab . "    ")];
     return $added;
 }
 
 function createRemovedString($tab, $name, $node): array
 {
-    $removed = [$tab . "  - {$name}: " . strFormat(getOldValue($node), $tab . "    ")];
+    $removed = [$tab . "  - {$name}: " . strFormat(getValue($node)['old'], $tab . "    ")];
     return $removed;
 }
 
 function createUpdatedSting($tab, $name, $node): array
 {
-    $updated = [$tab . "  - {$name}: " . strFormat(getOldValue($node), $tab . "    "),
-        $tab . "  + {$name}: " . strFormat(getNewValue($node), $tab . "    ")
+    $updated = [$tab . "  - {$name}: " . strFormat(getValue($node)['old'], $tab . "    "),
+        $tab . "  + {$name}: " . strFormat(getValue($node)['new'], $tab . "    ")
     ];
     return $updated;
 }
 
 function createNotChangedString($tab, $name, $node): array
 {
-    $notChanged = [$tab . "    {$name}: " . strFormat(getOldValue($node), $tab . "    ")];
+    $notChanged = [$tab . "    {$name}: " . strFormat(getValue($node)['old'], $tab . "    ")];
     return $notChanged;
 }
 

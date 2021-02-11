@@ -31,17 +31,15 @@ function getType($node): string
     return $node['type'];
 }
 
-function getOldValue($node)
+function getValue($node): array
 {
-    return $node['oldValue'];
+    return [
+        'old' => $node['oldValue'],
+        'new' => $node['newValue']
+    ];
 }
 
-function getNewValue($node)
-{
-    return $node['newValue'];
-}
-
-function getChildren($node)
+function getChildren($node): array
 {
     return $node['children'];
 }

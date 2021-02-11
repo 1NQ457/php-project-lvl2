@@ -12,8 +12,8 @@ function makeTree($anyTypeBefore, $anyTypeAfter): array
 {
     $before = (array) $anyTypeBefore;
     $after = (array) $anyTypeAfter;
-    $keys = array_keys(array_merge($before, $after));
-    sort($keys);
+    $unsortedKeys = array_keys(array_merge($before, $after));
+    $keys = getSorted($unsortedKeys);
 
     return array_map(function ($key) use ($before, $after): array {
         if (!array_key_exists($key, $before)) {
@@ -32,17 +32,24 @@ function makeTree($anyTypeBefore, $anyTypeAfter): array
     }, $keys);
 }
 
+function getSorted($arr): array
+{
+    $arrToSort = $arr;
+    sort($arrToSort);
+    return $arrToSort;
+}
+
 function genDiff($pathToBefore, $pathToAfter, $format = 'stylish'): string
 {
     [$before, $after] = getData($pathToBefore, $pathToAfter);
     $tree = makeTree($before, $after);
     $formatters = [
         'stylish' =>
-            fn ($tree) => stylishOutput($tree),
+            fn ($tree): string => stylishOutput($tree),
         'plain' =>
-            fn ($tree) => plainOutput($tree),
+            fn ($tree): string => plainOutput($tree),
         'json' =>
-            fn ($tree) => json_encode($tree, JSON_PRETTY_PRINT)
+            fn ($tree): string => json_encode($tree, JSON_PRETTY_PRINT)
     ];
     return $formatters[$format]($tree);
 }
