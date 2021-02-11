@@ -67,5 +67,5 @@ function plainOutput($tree)
 {
     $output = makeOutput($tree);
     $result = implode("\n", $output);
-    return $result . "\n";
+    return $result;
 }
