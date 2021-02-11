@@ -9,7 +9,7 @@ use function Differ\Tree\getNewValue;
 use function Differ\Tree\getChildren;
 use function Funct\Collection\flattenAll;
 
-function boolToStr($value)
+function boolToStr($value): string
 {
     if (is_bool($value)) {
         if ($value === true) {
@@ -23,7 +23,7 @@ function boolToStr($value)
     return "'{$value}'";
 }
 
-function strFormat($value, $tab = '')
+function strFormat($value, $tab = ''): string
 {
     if (!is_object($value)) {
         if ($value === null) {
@@ -35,9 +35,9 @@ function strFormat($value, $tab = '')
     return '[complex value]';
 }
 
-function makeOutput($tree, $parentName = '')
+function makeOutput($tree, $parentName = ''): array
 {
-    return array_reduce($tree, function ($result, $node) use ($parentName) {
+    return array_reduce($tree, function ($result, $node) use ($parentName): array {
         $name = trim(($parentName . '.' . getName($node)), ".");
         $type = getType($node);
 
@@ -63,7 +63,7 @@ function makeOutput($tree, $parentName = '')
     }, []);
 }
 
-function plainOutput($tree)
+function plainOutput($tree): string
 {
     $output = makeOutput($tree);
     $result = implode("\n", $output);

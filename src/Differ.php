@@ -8,10 +8,10 @@ use function Differ\Parser\getData;
 use function Differ\Formatters\Stylish\stylishOutput;
 use function Differ\Formatters\Plain\plainOutput;
 
-function makeTree($before, $after)
+function makeTree($anyTypeBefore, $anyTypeAfter): array
 {
-    $before = (array) $before;
-    $after = (array) $after;
+    $before = (array) $anyTypeBefore;
+    $after = (array) $anyTypeAfter;
     $keys = array_keys(array_merge($before, $after));
     sort($keys);
 
@@ -32,7 +32,7 @@ function makeTree($before, $after)
     }, $keys);
 }
 
-function genDiff($pathToBefore, $pathToAfter, $format = 'stylish')
+function genDiff($pathToBefore, $pathToAfter, $format = 'stylish'): string
 {
     [$before, $after] = getData($pathToBefore, $pathToAfter);
     $tree = makeTree($before, $after);

@@ -9,7 +9,7 @@ use function Differ\Tree\getOldValue;
 use function Differ\Tree\getNewValue;
 use function Differ\Tree\getChildren;
 
-function boolToStr($value)
+function boolToStr($value): string
 {
     if (is_bool($value)) {
         if ($value === true) {
@@ -20,7 +20,7 @@ function boolToStr($value)
     return $value;
 }
 
-function strFormat($value, $tab = '')
+function strFormat($value, $tab = ''): string
 {
     if (!is_object($value)) {
         if ($value === null) {
@@ -29,13 +29,13 @@ function strFormat($value, $tab = '')
         return boolToStr($value);
     }
     $arr = (array) ($value);
-    $result = implode('', array_map(function ($key, $value) use ($tab) {
+    $result = implode('', array_map(function ($key, $value) use ($tab): string {
         return "\n" . $tab . "    {$key}: " . strFormat($value, $tab . '    ');
     }, array_keys($arr), $arr));
     return '{' . $result . "\n" . $tab . '}';
 }
 
-function makeOutput($tree, $tab = '')
+function makeOutput($tree, $tab = ''): array
 {
     return array_reduce($tree, function ($result, $node) use ($tab) {
         $name = getName($node);
@@ -64,7 +64,7 @@ function makeOutput($tree, $tab = '')
     }, []);
 }
 
-function stylishOutput($tree)
+function stylishOutput($tree): string
 {
     $output = makeOutput($tree);
     $result = implode("\n", $output);

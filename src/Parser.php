@@ -4,7 +4,7 @@ namespace Differ\Parser;
 
 use Symfony\Component\Yaml\Yaml;
 
-function parse($pathToFile)
+function parse($pathToFile): object
 {
     $rawData = file_get_contents($pathToFile);
     $extension = pathinfo($pathToFile, PATHINFO_EXTENSION);
@@ -19,7 +19,7 @@ function parse($pathToFile)
     return $parsers[$extension]($rawData);
 }
 
-function getData($pathToBefore, $pathToAfter)
+function getData($pathToBefore, $pathToAfter): array
 {
     return [parse($pathToBefore), parse($pathToAfter)];
 }

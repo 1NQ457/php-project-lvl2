@@ -2,7 +2,7 @@
 
 namespace Differ\Tree;
 
-function makeLeaf($name, $type, $oldValue, $newValue)
+function makeLeaf($name, $type, $oldValue, $newValue): array
 {
     return [
         "name" => $name,
@@ -12,7 +12,7 @@ function makeLeaf($name, $type, $oldValue, $newValue)
     ];
 }
 
-function makeNode(string $name, string $type, $children)
+function makeNode(string $name, string $type, $children): array
 {
     return [
         "name" => $name,
@@ -21,12 +21,12 @@ function makeNode(string $name, string $type, $children)
     ];
 }
 
-function getName($node)
+function getName($node): string
 {
     return $node['name'];
 }
 
-function getType($node)
+function getType($node): string
 {
     return $node['type'];
 }
