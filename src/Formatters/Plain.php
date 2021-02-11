@@ -17,6 +17,9 @@ function boolToStr($value)
         }
         return 'false';
     }
+    if (is_int($value)) {
+        return $value;
+    }
     return "'{$value}'";
 }
 
