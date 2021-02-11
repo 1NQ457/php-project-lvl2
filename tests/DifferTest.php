@@ -12,9 +12,9 @@ class DifferTest extends TestCase
     public function additionProvider()
     {
         return [
-            ['./tests/fixtures/before.json', './tests/fixtures/after.json'],
-            ['./tests/fixtures/before.yml', './tests/fixtures/after.yml'],
-            ['./tests/fixtures/before.json', './tests/fixtures/after.yml'],
+            ['./tests/fixtures/before.json', './tests/fixtures/after.json', './tests/fixtures/diffStylish', 'stylish'],
+            ['./tests/fixtures/before.yml', './tests/fixtures/after.yml', './tests/fixtures/diffPlain', 'plain'],
+            ['./tests/fixtures/before.json', './tests/fixtures/after.yml', './tests/fixtures/diffPlain', 'plain']
         ];
     }
 
@@ -22,10 +22,10 @@ class DifferTest extends TestCase
      * @dataProvider additionProvider
      */
 
-    public function testGendiff($before, $after)
+    public function testGendiff($before, $after, $pathToExpected, $format)
     {
-        $expected = file_get_contents('./tests/fixtures/diffStylish');
-        $actual = gendiff($before, $after);
+        $expected = file_get_contents($pathToExpected);
+        $actual = gendiff($before, $after, $format);
         $this->assertEquals($expected, $actual);
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace GenDiff\Parser;
+namespace Gendiff\Parser;
 
 use Symfony\Component\Yaml\Yaml;
 

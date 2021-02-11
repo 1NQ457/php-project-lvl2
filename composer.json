@@ -17,7 +17,8 @@
             "src/Differ.php",
             "src/Tree.php",
             "src/Parser.php",
-            "src/Formatters/Stylish.php"
+            "src/Formatters/Stylish.php",
+            "src/Formatters/Plain.php"
         ]
     },
     "scripts": {

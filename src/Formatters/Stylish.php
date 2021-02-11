@@ -32,7 +32,7 @@ function strFormat($value, $tab = '')
     return '{' . $result . "\n" . $tab . '}';
 }
 
-function makeOutput($tree, $tab)
+function makeOutput($tree, $tab = '')
 {
     $addedSpace = "    ";
     return array_reduce($tree, function ($result, $node) use ($tab, $addedSpace) {
@@ -44,11 +44,11 @@ function makeOutput($tree, $tab)
                 $newValue = getNewValue($node);
                 $result[] = $tab . "  + {$name}: " . strFormat($newValue, $tab . $addedSpace);
                 break;
-            case 'deleted':
+            case 'removed':
                 $oldValue = getOldValue($node);
                 $result[] = $tab . "  - {$name}: " . strFormat($oldValue, $tab . $addedSpace);
                 break;
-            case 'changed':
+            case 'updated':
                 $oldValue = getOldValue($node);
                 $newValue = getNewValue($node);
                 $result[] = $tab . "  - {$name}: " . strFormat($oldValue, $tab . $addedSpace);
@@ -67,4 +67,11 @@ function makeOutput($tree, $tab)
         };
         return flattenAll($result);
     }, []);
+}
+
+function stylishOutput($tree)
+{
+    $output = makeOutput($tree);
+    $result = implode("\n", $output);
+    return "{\n" . $result . "\n}\n";
 }

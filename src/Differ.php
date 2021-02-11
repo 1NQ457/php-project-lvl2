@@ -4,8 +4,9 @@ namespace Gendiff\Differ;
 
 use function Gendiff\Tree\makeLeaf;
 use function Gendiff\Tree\makeNode;
-use function GenDiff\Parser\getData;
-use function Gendiff\Formatters\Stylish\makeOutput;
+use function Gendiff\Parser\getData;
+use function Gendiff\Formatters\Stylish\stylishOutput;
+use function Gendiff\Formatters\Plain\plainOutput;
 
 function makeTree($before, $after)
 {
@@ -19,24 +20,27 @@ function makeTree($before, $after)
             return makeLeaf($key, 'added', null, $after[$key]);
         }
         if (!array_key_exists($key, $after)) {
-            return makeLeaf($key, 'deleted', $before[$key], null);
+            return makeLeaf($key, 'removed', $before[$key], null);
         }
         if (is_object($before[$key]) && (is_object($after[$key]))) {
             return makeNode($key, 'nested', makeTree($before[$key], $after[$key]));
         };
         if ($before[$key] !== $after[$key]) {
-            return makeLeaf($key, 'changed', $before[$key], $after[$key]);
+            return makeLeaf($key, 'updated', $before[$key], $after[$key]);
         }
         return makeLeaf($key, 'notChanged', $before[$key], $after[$key]);
     }, $keys);
 }
 
-function gendiff($pathToBefore, $pathToAfter)
+function gendiff($pathToBefore, $pathToAfter, $format = 'stylish')
 {
     [$before, $after] = getData($pathToBefore, $pathToAfter);
     $tree = makeTree($before, $after);
-    $output = makeOutput($tree, '');
-    $result = implode("\n", $output);
-
-    return "{\n" . $result . "\n}\n";
+    $formatters = [
+        'stylish' =>
+            fn ($tree) => stylishOutput($tree),
+        'plain' =>
+            fn ($tree) => plainOutput($tree)
+    ];
+    return $formatters[$format]($tree);
 }

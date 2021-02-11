@@ -28,5 +28,5 @@ DOCOPT;
 
 $args = \Docopt::handle(DOC, ['version' => 'GenDiff. Version 0.6.0']);
 
-$diff = gendiff($args['<firstFile>'], $args['<secondFile>']);
+$diff = gendiff($args['<firstFile>'], $args['<secondFile>'], $args['--format']);
 print($diff);
