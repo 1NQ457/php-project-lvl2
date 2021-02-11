@@ -68,5 +68,5 @@ function stylishOutput($tree)
 {
     $output = makeOutput($tree);
     $result = implode("\n", $output);
-    return "{\n" . $result . "\n}\n";
+    return "{\n" . $result . "\n}";
 }
