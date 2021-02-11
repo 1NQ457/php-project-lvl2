@@ -1,6 +1,6 @@
 <?php
 
-namespace Gendiff\Tree;
+namespace Differ\Tree;
 
 function makeLeaf($name, $type, $oldValue, $newValue)
 {

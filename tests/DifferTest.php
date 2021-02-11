@@ -4,8 +4,8 @@ namespace GenDiff\Tests;
 
 use PHPUnit\Framework\TestCase;
 
-use function GenDiff\Parser\getData;
-use function GenDiff\Differ\gendiff;
+use function Differ\Parser\getData;
+use function Differ\Differ\gendiff;
 
 class DifferTest extends TestCase
 {
@@ -25,7 +25,7 @@ class DifferTest extends TestCase
     public function testGendiff($before, $after, $pathToExpected, $format)
     {
         $expected = file_get_contents($pathToExpected);
-        $actual = gendiff($before, $after, $format);
+        $actual = genDiff($before, $after, $format);
         $this->assertEquals($expected, $actual);
     }
 }

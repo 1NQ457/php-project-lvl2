@@ -1,12 +1,12 @@
 <?php
 
-namespace Gendiff\Formatters\Plain;
+namespace Differ\Formatters\Plain;
 
-use function Gendiff\Tree\getName;
-use function Gendiff\Tree\getType;
-use function Gendiff\Tree\getOldValue;
-use function Gendiff\Tree\getNewValue;
-use function Gendiff\Tree\getChildren;
+use function Differ\Tree\getName;
+use function Differ\Tree\getType;
+use function Differ\Tree\getOldValue;
+use function Differ\Tree\getNewValue;
+use function Differ\Tree\getChildren;
 use function Funct\Collection\flattenAll;
 
 function boolToStr($value)

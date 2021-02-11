@@ -1,12 +1,12 @@
 <?php
 
-namespace Gendiff\Differ;
+namespace Differ\Differ;
 
-use function Gendiff\Tree\makeLeaf;
-use function Gendiff\Tree\makeNode;
-use function Gendiff\Parser\getData;
-use function Gendiff\Formatters\Stylish\stylishOutput;
-use function Gendiff\Formatters\Plain\plainOutput;
+use function Differ\Tree\makeLeaf;
+use function Differ\Tree\makeNode;
+use function Differ\Parser\getData;
+use function Differ\Formatters\Stylish\stylishOutput;
+use function Differ\Formatters\Plain\plainOutput;
 
 function makeTree($before, $after)
 {
@@ -32,7 +32,7 @@ function makeTree($before, $after)
     }, $keys);
 }
 
-function gendiff($pathToBefore, $pathToAfter, $format = 'stylish')
+function genDiff($pathToBefore, $pathToAfter, $format = 'stylish')
 {
     [$before, $after] = getData($pathToBefore, $pathToAfter);
     $tree = makeTree($before, $after);
