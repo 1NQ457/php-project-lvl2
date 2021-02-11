@@ -13,6 +13,10 @@
         "bin/gendiff"
     ],
     "autoload": {
+        "psr-4": {
+            "Php\\Package\\": "src",
+            "Php\\Package\\Tests\\": "tests"
+        },
         "files": [
             "src/Differ.php",
             "src/Tree.php",
