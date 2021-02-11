@@ -23,6 +23,9 @@ function boolToStr($value)
 function strFormat($value, $tab = '')
 {
     if (!is_object($value)) {
+        if ($value === null) {
+            return 'null';
+        }
         return boolToStr($value);
     }
     $arr = (array) ($value);
