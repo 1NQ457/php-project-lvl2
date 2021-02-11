@@ -50,6 +50,8 @@ function makeOutput($tree, $tab = ''): array
                 return createNotChangedString($tab, $name, $node);
             case 'nested':
                 return createFromeNode($tab, $name, $node);
+            default:
+                return [''];
         };
     }, $tree);
     return flattenAll($result);

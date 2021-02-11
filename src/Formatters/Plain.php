@@ -48,7 +48,7 @@ function makeOutput($tree, $parentName = ''): array
                 return createUpdatedString($name, $node);
             case 'nested':
                 return createNestedString($name, $node);
-            case 'notChanged':
+            default:
                 return [''];
         };
     }, $tree);
