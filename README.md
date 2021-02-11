@@ -30,3 +30,7 @@ gendiff before.yml after.yml
 #### Пример использования для рекурсивного вычисления отличий в двух файлах.
 
 [![asciicast](https://asciinema.org/a/IDpNNfjmB7XZ6J5cbqF0hpgJJ.svg)](https://asciinema.org/a/IDpNNfjmB7XZ6J5cbqF0hpgJJ)
+
+#### Пример использования с плоским форматированием.
+
+[![asciicast](https://asciinema.org/a/IMYt7NKmo7RWGcrfwvzrXxZyY.svg)](https://asciinema.org/a/IMYt7NKmo7RWGcrfwvzrXxZyY)

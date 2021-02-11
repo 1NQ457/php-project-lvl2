@@ -38,30 +38,23 @@ function makeOutput($tree, $tab = '')
     return array_reduce($tree, function ($result, $node) use ($tab, $addedSpace) {
         $name = getName($node);
         $type = getType($node);
-
         switch ($type) {
             case 'added':
-                $newValue = getNewValue($node);
-                $result[] = $tab . "  + {$name}: " . strFormat($newValue, $tab . $addedSpace);
+                $result[] = $tab . "  + {$name}: " . strFormat(getNewValue($node), $tab . $addedSpace);
                 break;
             case 'removed':
-                $oldValue = getOldValue($node);
-                $result[] = $tab . "  - {$name}: " . strFormat($oldValue, $tab . $addedSpace);
+                $result[] = $tab . "  - {$name}: " . strFormat(getOldValue($node), $tab . $addedSpace);
                 break;
             case 'updated':
-                $oldValue = getOldValue($node);
-                $newValue = getNewValue($node);
-                $result[] = $tab . "  - {$name}: " . strFormat($oldValue, $tab . $addedSpace);
-                $result[] = $tab . "  + {$name}: " . strFormat($newValue, $tab . $addedSpace);
+                $result[] = $tab . "  - {$name}: " . strFormat(getOldValue($node), $tab . $addedSpace);
+                $result[] = $tab . "  + {$name}: " . strFormat(getNewValue($node), $tab . $addedSpace);
                 break;
             case 'notChanged':
-                $value = getOldValue($node);
-                $result[] = $tab . "    {$name}: " . strFormat($value, $tab . $addedSpace);
+                $result[] = $tab . "    {$name}: " . strFormat(getOldValue($node), $tab . $addedSpace);
                 break;
             case 'nested':
-                $children = getChildren($node);
                 $result[] = $tab . "    {$name}: {";
-                $result[] = makeOutput($children, $tab . $addedSpace);
+                $result[] = makeOutput(getChildren($node), $tab . $addedSpace);
                 $result[] = $tab . '    }';
                 break;
         };
