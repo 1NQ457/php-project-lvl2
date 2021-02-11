@@ -12,6 +12,8 @@ function parse($pathToFile)
         'json' =>
             fn ($rawData) => json_decode($rawData),
         'yml' =>
+            fn ($rawData) => Yaml::parse($rawData, Yaml::PARSE_OBJECT_FOR_MAP),
+        'yaml' =>
             fn ($rawData) => Yaml::parse($rawData, Yaml::PARSE_OBJECT_FOR_MAP)
     ];
     return $parsers[$extension]($rawData);
