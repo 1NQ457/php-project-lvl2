@@ -7,13 +7,15 @@ use function Differ\Tree\makeNode;
 use function Differ\Parser\getData;
 use function Differ\Formatters\Stylish\stylishOutput;
 use function Differ\Formatters\Plain\plainOutput;
+use function Differ\Formatters\Json\json;
+use function Funct\Collection\sortBy;
 
 function makeTree($anyTypeBefore, $anyTypeAfter): array
 {
     $before = (array) $anyTypeBefore;
     $after = (array) $anyTypeAfter;
     $unsortedKeys = array_keys(array_merge($before, $after));
-    $keys = getSorted($unsortedKeys);
+    $keys = array_values(sortBy($unsortedKeys, fn ($value) => $value));
 
     return array_map(function ($key) use ($before, $after): array {
         if (!array_key_exists($key, $before)) {
@@ -34,9 +36,8 @@ function makeTree($anyTypeBefore, $anyTypeAfter): array
 
 function getSorted($arr): array
 {
-    $arrToSort = $arr;
-    sort($arrToSort);
-    return $arrToSort;
+    $sortedArr = sortBy($arr, fn ($value) => $value);
+    return $sortedArr;
 }
 
 function genDiff($pathToBefore, $pathToAfter, $format = 'stylish'): string
@@ -49,7 +50,7 @@ function genDiff($pathToBefore, $pathToAfter, $format = 'stylish'): string
         'plain' =>
             fn ($tree): string => plainOutput($tree),
         'json' =>
-            fn ($tree): string => json_encode($tree, JSON_PRETTY_PRINT)
+            fn ($tree): string => json($tree)
     ];
     return $formatters[$format]($tree);
 }

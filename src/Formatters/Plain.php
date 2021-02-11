@@ -49,7 +49,7 @@ function makeOutput($tree, $parentName = ''): array
             case 'nested':
                 return createNestedString($name, $node);
             case 'notChanged':
-                return [];
+                return [''];
         };
     }, $tree);
     return flatten($result);
